@@ -1,0 +1,89 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Shopping Cart API",
+    "description": "API for shopping cart checkout"
+  },
+  "tags": [
+    {
+      "name": "Checkout",
+      "description": "APIs for managing the shopping cart checkout process"
+    }
+  ],
+  "paths": {
+    "/checkout": {
+      "post": {
+        "tags": ["Checkout"],
+        "summary": "Checkout shopping cart",
+        "description": "Checkout the items in the shopping cart and return the total amount to be paid",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "items",
+            "description": "The items in the shopping cart",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["MacBook Pro", "Alexa speaker"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CheckoutResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Item": {
+      "type": "object",
+      "properties": {
+        "sku": {
+          "type": "string",
+          "description": "The SKU of the item"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the item"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The price of the item"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The quantity of the item"
+        }
+      }
+    },
+    "CheckoutResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "number",
+          "format": "double",
+          "description": "The total amount to be paid"
+        }
+      }
+    }
+  }
+}
